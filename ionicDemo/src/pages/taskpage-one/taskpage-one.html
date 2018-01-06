@@ -1,0 +1,46 @@
+<!--
+  Generated template for the TaskpageOnePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>taskpageOne</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-grid>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+        <ion-label>开始时间</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" min="1990" max="2030-10-31" [(ngModel)]="startTimes" doneText="确定" cancelText="取消"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+        <ion-label>结束时间</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" min="1990" max="2030-10-31"  [(ngModel)]="endTime" doneText="确定" cancelText="取消"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button  (click)="searchBtn()" >查询</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let item of listArr">
+      <ion-avatar item-start>
+        <img src="img/avatar-finn.png">
+      </ion-avatar>
+      <h2>日期</h2>
+      <h3>{{item.depth}}CM</h3>
+      <p><span>作业面积</span><span>作业面积</span></p>
+    </ion-item>
+  </ion-list>
+</ion-content>
