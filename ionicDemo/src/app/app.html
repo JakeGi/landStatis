@@ -1,15 +1,33 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>个人信息</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
+    <!--<ion-list>-->
+      <!--<ion-item>Terminator II</ion-item>-->
+      <!--<button  ion-item *ngFor="let p of pages" (click)="openPage(p)">-->
+        <!--{{p.title}}-->
+      <!--</button>-->
+    <!--</ion-list>-->
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 text-center>
+          <img src="../assets/imgs/logo.png" style="width: 3rem;height: 3rem">
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+
+      <ion-item *ngFor="let p of pages">
         {{p.title}}
-      </button>
+        <button ion-button clear item-end>{{p.value}}</button>
+      </ion-item>
+
     </ion-list>
   </ion-content>
 

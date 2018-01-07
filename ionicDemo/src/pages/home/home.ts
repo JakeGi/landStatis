@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import {TaskpageOnePage} from "../taskpage-one/taskpage-one";
+import {TaskpageTwoPage} from "../taskpage-two/taskpage-two";
+import {TaskpageThirdPage} from "../taskpage-third/taskpage-third";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -10,7 +12,6 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, private http: Http) {
 
-    this.ss();
   }
 
   ss() {
@@ -27,5 +28,13 @@ export class HomePage {
     this.navCtrl.push("TaskpageOnePage");
   }
 
+  secondCare(){
+    this.navCtrl.push("TaskpageTwoPage");
 
+  }
+
+  thirdCare(){
+    this.navCtrl.push("TaskpageThirdPage");
+
+  }
 }

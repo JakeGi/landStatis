@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>农机精准作业平台</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,31 +11,23 @@
 
   <ion-card (click) = "firstCare($event)">
     <ion-card-header>
-      Header
+      深松作业
     </ion-card-header>
     <ion-card-content>
      <ion-img  src="../../assets/imgs/1.jpg" width="100%" height="auto"\></ion-img>
     </ion-card-content>
    </ion-card>
-  <ion-card>
+  <ion-card (click) = "secondCare($event)">
     <ion-card-header>
-      Header
+      作业统计
     </ion-card-header>
     <ion-card-content>
       <ion-img  src="../../assets/imgs/1.jpg" width="100%" height="auto"\></ion-img>
     </ion-card-content>
   </ion-card>
-  <ion-card>
+  <ion-card  (click)="thirdCare()">
     <ion-card-header>
-      Header
-    </ion-card-header>
-    <ion-card-content>
-      <ion-img  src="../../assets/imgs/1.jpg" width="100%" height="auto"\></ion-img>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      Header
+      农机分布
     </ion-card-header>
     <ion-card-content>
       <ion-img  src="../../assets/imgs/1.jpg" width="100%" height="auto"\></ion-img>

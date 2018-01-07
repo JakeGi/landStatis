@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>taskpageOne</ion-title>
+    <ion-title>深松作业</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -34,13 +34,17 @@
     </ion-row>
   </ion-grid>
   <ion-list>
-    <ion-item *ngFor="let item of listArr">
+    <ion-item *ngFor="let item of listArr" (click) = goDetali($event)>
       <ion-avatar item-start>
         <img src="img/avatar-finn.png">
       </ion-avatar>
-      <h2>日期</h2>
-      <h3>{{item.depth}}CM</h3>
-      <p><span>作业面积</span><span>作业面积</span></p>
+      <h2>日期:{{item.workDate}}</h2>
+      <h3>
+        <span>作业面积:</span><span>{{item.area}}</span>
+        <span>实际面积:</span><span>{{item.areaVaild}}</span>
+        <span>作业深度:</span><span>{{item.depth}}CM</span>
+        <p><span>作业地点:</span><span>{{item.loc1}}&nbsp;{{item.loc2}}&nbsp;{{item.loc3}}&nbsp;{{item.loc4}}&nbsp;{{item.loc5}}</span></p>
+      </h3>
     </ion-item>
   </ion-list>
 </ion-content>

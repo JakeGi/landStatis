@@ -7,12 +7,33 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>taskpageThird</ion-title>
+    <ion-title>农机分布</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item>
+      <ion-icon name="leaf" item-start></ion-icon>
+      当前启动
+      <button ion-button clear item-end>{{currNum}}</button>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="leaf" item-start></ion-icon>
+      当日启动
+      <button ion-button clear item-end>{{currDay}}</button>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="leaf" item-start></ion-icon>
+      长时离线
+      <button ion-button clear item-end>{{offNum}}</button>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="leaf" item-start></ion-icon>
+      农机总数
+      <button ion-button clear item-end>{{TotalNum}}</button>
+    </ion-item>
+  </ion-list>
 </ion-content>
