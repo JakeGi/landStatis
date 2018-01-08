@@ -17,11 +17,26 @@ import {TaskoneDetailePage} from "../taskone-detaile/taskone-detaile";
 })
 
 export class TaskpageOnePage {
-  startTimes:any;
-  endTime:any;
+  startTimes:string = "2018-10-10";
+  endTime:string = "2018-10-10";
   listArr:any;
+  showStartTime:any;
+  showEndTime:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private http:Http) {
+
+      // if(this.startTimes == ""){
+      //     this.showStartTime = "false"
+      // }else {
+      //     this.showStartTime = "true"
+      // }
+      //
+      //
+      // if(this.endTime == ""){
+      //     this.showEndTime = "false"
+      // }else {
+      //     this.showEndTime = "true"
+      // }
   }
 
   ionViewDidLoad() {

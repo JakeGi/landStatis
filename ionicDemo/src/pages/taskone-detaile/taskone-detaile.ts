@@ -8,6 +8,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 declare var BMap; //declare var AMap: any;
+declare var BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW;
 
 @IonicPage()
 @Component({
@@ -28,12 +29,60 @@ export class TaskoneDetailePage {
 
   }
   ionViewWillEnter() {
+        //绘制关键点
+      var map = this.map = new BMap.Map("container");
+      var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+          scale: 0.6,//图标缩放大小
+          strokeColor:'#fff',//设置矢量图标的线填充颜色
+          strokeWeight: '2',//设置线宽
+      });
+      // var styleJson = [
+      //     {
+      //         "featureType": "all",
+      //         "elementType": "geometry",
+      //         "stylers": {
+      //             "hue": "#ffff11",
+      //             "saturation": 89
+      //         }
+      //     },
+      //     {
+      //         "featureType": "water",
+      //         "elementType": "all",
+      //         "stylers": {
+      //             "color": "#ffffff"
+      //         }
+      //     }
+      // ]
+      // map.setMapStyle({styleJson:styleJson});
+      map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
 
-    this.loadToolBar();
+      var p1 = new BMap.Point(116.301934,39.977552);
+      var p2 = new BMap.Point(116.508328,39.919141);
+
+      var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+      driving.search(p1, p2);
+
+    // this.loadMap();
   }
-  loadToolBar() {
-    // 百度地图API功能
-    var map = this.map = new BMap.Map("container");
+  loadMap() {
+      // 百度地图API功能
+      var map = this.map = new BMap.Map("container");
+      // var geolocation = new BMap.Geolocation();
+      // geolocation.getCurrentPosition(function(r){
+      //     if(this.getStatus() == 0){
+      //         var mk = new BMap.Marker(r.point);
+      //         map.addOverlay(mk);
+      //         map.panTo(r.point);
+      //         alert('您的位置：'+r.point.lng+','+r.point.lat);
+      //         var point = new BMap.Point(r.point.lng, r.point.lat);
+      //         map.centerAndZoom(point, 15);
+      //         var marker = new BMap.Marker(point);        // 创建标注
+      //         map.addOverlay(marker);
+      //     }
+      //     else {
+      //         alert('failed'+this.getStatus());
+      //     }
+      // });
     map.centerAndZoom("重庆", 12);  //初始化地图,设置城市和地图级别。
     var pointA = new BMap.Point(106.486654, 29.490295);  // 创建点坐标A--大渡口区
     var pointB = new BMap.Point(106.581515, 29.615467);  // 创建点坐标B--江北区
@@ -41,18 +90,32 @@ export class TaskoneDetailePage {
     var polyline = new BMap.Polyline([pointA, pointB], {strokeColor: "blue", strokeWeight: 6, strokeOpacity: 0.5});  //定义折线
     map.addOverlay(polyline);     //添加折线到地图上
 
-  }
-  // 用经纬度设置地图中心点
-  theLocation(){
-    this.longitude = "116.32715863448607";
-    this.latitude = "39.990912172420714";
-    if(this.longitude != "" && this.latitude != ""){
-      this.map.clearOverlays();
-      var new_point = new BMap.Point(this.longitude,this.latitude);
-      var marker = new BMap.Marker(new_point);  // 创建标注
-      this.map.addOverlay(marker);              // 将标注添加到地图中
-      this.map.panTo(new_point);
-    }
+      var transit = new BMap.TransitRoute("北京市");
+      transit.setSearchCompleteCallback(function(results){
+          if (transit.getStatus() == 0){
+              var firstPlan = results.getPlan(0);
+              // 绘制步行线路
+              for (var i = 0; i < firstPlan.getNumRoutes(); i ++){
+                  var walk = firstPlan.getRoute(i);
+                  if (walk.getDistance(false) > 0){
+                      // 步行线路有可能为0
+                      map.addOverlay(new BMap.Polyline(walk.getPoints(), {lineColor: "green"}));
+                  }
+              }
+              // 绘制公交线路
+              for (i = 0; i < firstPlan.getNumLines(); i ++){
+                  var line = firstPlan.getLine(i);
+                  map.addOverlay(new BMap.Polyline(line.getPoints()));
+              }
+              // 输出方案信息
+              var s = [];
+              for (i = 0; i < results.getNumPlans(); i ++){
+                  s.push((i + 1) + ". " + results.getPlan(i).getDescription());
+              }
+              document.getElementById("log").innerHTML = s.join("<br>");
+          }
+      })
+      transit.search("中关村", "国贸桥");
   }
 
   }

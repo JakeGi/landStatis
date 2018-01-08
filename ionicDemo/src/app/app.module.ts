@@ -19,7 +19,10 @@ import {Http} from '@angular/http'
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+        tabsHideOnSubPages: 'true',//ionic3隐藏全部子页面tabs
+        backButtonText: '',//返回文字
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,3 +1,18 @@
 page-taskpage-one {
-
+  .datetime-ios,
+  .datetime-md{
+    padding: 0;
+  }
+  .item-ios,
+  .item-md{
+    padding-left: 1rem;
+  }
+  .item-block{
+    min-height: 3rem;
+  }
+  .button-ios,
+  .button-md{
+    height: 3rem;
+    margin: 0;
+  }
 }
