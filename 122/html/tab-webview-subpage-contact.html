@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+			
+			.topDiv {
+				height: 3rem;
+			}
+			
+			.startTimeBtn,
+			.endTimeBtn {
+				width: 49%;
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-row topDiv">
+				<button type="button" class="mui-btn mui-btn-danger startTimeBtn">开始时间</button>
+				<button type="button" class="mui-btn mui-btn-danger endTimeBtn" data-options='{"type":"date","beginYear":2014,"endYear":2016}'>结束时间</button>
+			</div>
+
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
+
+			</ul>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/mui.picker.min.js"></script>
+	<script src="../js/mui.dtpicker.js"></script>
+	<script src="../js/commontUrl/commontUrl.js"></script>
+	<script>
+		mui.init({//如果用此方法预加载，传进来的值是空
+			swipeBack: true //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+			console.log("当前页面URL：" + plus.webview.currentWebview().getURL());
+
+		});
+		var startTimes = "2012-01-01";
+		var mydate = new Date();
+		var month = mydate.getMonth() + 1;
+		var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
+		
+		var btns = document.getElementsByClassName("mui-btn");
+		mui.each(btns, function(i, btn) {
+			btn.addEventListener('tap', function() {
+				var _self = this;
+				if(_self.picker) {
+					_self.picker.show(function(rs) {
+						if(i == 0) {
+							btn.innerText = rs.text;
+
+						} else {
+							btn.innerText = rs.text;
+
+						}
+						_self.picker.dispose();
+						_self.picker = null;
+					});
+				} else {
+					var options = {
+						"type": "date",
+//						"beginYear": startTimes.,
+//						"endYear": endDate
+					}
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					_self.picker = new mui.DtPicker(options);
+					_self.picker.show(function(rs) {
+
+						btn.innerText = rs.text;
+
+						_self.picker.dispose();
+						_self.picker = null;
+					});
+				}
+
+			}, false);
+		});
+
+		mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+			//获取id
+			var workDate = this.getAttribute("workDate");
+			//传值给详情页面，通知加载新数据
+			//		  mui.fire(detail,'getDetail',{id:id});
+			//打开新闻详情
+			mui.openWindow({
+				id: 'detail',
+				url: 'detail.html',
+				 extras: {
+                 	 title: workDate
+                 },
+				styles: { // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
+					titleNView: { // 窗口的标题栏控件
+						titleText: workDate, // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+						titleColor: "#000000", // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+						titleSize: "17px", // 字体大小,默认17px
+						backgroundColor: "#F7F7F7", // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+						autoBackButton: "true",
+						progress: { // 标题栏控件的进度条样式
+							color: "#00FF00", // 进度条颜色,默认值为"#00FF00"  
+							height: "0px" // 进度条高度,默认值为"2px"         
+						},
+						splitLine: { // 标题栏控件的底部分割线，类似borderBottom
+							color: "#CCCCCC", // 分割线颜色,默认值为"#CCCCCC"  
+							height: "1px" // 分割线高度,默认值为"2px"
+						}
+					}
+				}
+			});
+		})
+
+		var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "+&endDate=" + endDate + "+&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=&deptNameList=&begin=1&end=500&carId=&deviceId=&acrossDistrict="
+		mui.ajax(commentBaseUrl + listUrl + parm, {
+			data: {},
+			dataType: 'jsonp', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			success: function(data) {
+				//获得服务器响应
+				var dic = eval("(" + data + ")")
+				var dataArr = dic.jsonObject[0];
+				
+				var Html = "";
+				mui.each(dataArr, function(index, item) {
+					Html = '<li class="mui-table-view-cell"  workDate ="'+item.workDate+'">\
+					<div class="mui-slider-cell">\
+						<div class="oa-contact-cell mui-table">\
+							<div class="oa-contact-avatar mui-table-cell">\
+								<img src="../images/60x60.gif" />\
+							</div>\
+							<div class="oa-contact-content mui-table-cell">\
+								<div class="mui-clearfix">\
+									<h4 class="oa-contact-name">' + item.workDate + '</h4>\
+									<span class="oa-contact-position mui-h6">' + '作业:' +item.areaVaild+ '/' + item.area + '</span>\
+								</div>\
+								<p class="oa-contact-email mui-h6">\
+									' + item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5 + '</p>\
+							</div>\
+						</div>\
+					</div>\
+				</li>';
+					document.getElementById('list').innerHTML += Html;
+				})
+				console.log("==" + dataArr.length);
+
+			}
+		});
+	</script>
+
+</html>

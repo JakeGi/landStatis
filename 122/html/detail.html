@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			#map {
+				width: 100%;
+				position: fixed;
+				top: 0px;
+				bottom: 0px;
+				line-height: 200px;
+				text-align: center;
+				background: #FFFFFF;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>ee</h1>
+		<div id="map">地图加载中...</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			//			mui.init();
+			var em = null,
+				map = null;
+			// H5 plus事件处理
+			function plusReady() {
+				// 确保DOM解析完成
+				if(!em || !window.plus || map) {
+					return
+				};
+				map = new plus.maps.Map("map");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// DOMContentloaded事件处理
+			document.addEventListener("DOMContentLoaded", function() {
+				em = document.getElementById("map");
+				plusReady();
+			}, false);
+
+			var value = plus.webview.currentWebview().title;
+			console.log(value);
+			var startTimes = "2012-01-01";
+			var mydate = new Date();
+			var month = mydate.getMonth() + 1;
+			var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
+			var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "+&endDate=" + endDate + "+&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=&deptNameList=&begin=1&end=500&carId=&deviceId=&acrossDistrict="
+			mui.ajax(commentBaseUrl + listUrl + parm, {
+				data: {},
+				dataType: 'jsonp', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					//获得服务器响应
+					var dic = eval("(" + data + ")")
+
+				}
+			});
+		</script>
+	</body>
+
+</html>
