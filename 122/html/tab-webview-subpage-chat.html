@@ -15,134 +15,232 @@
 			}
 			
 			.title {
-				padding: 20px 15px 10px;
+				margin: 20px 15px 10px;
 				color: #6d6d72;
 				font-size: 15px;
-				background-color: #fff;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell {
+				padding-left: 10px;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: #F3F3F3;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<div class="title">
-					这是subNView模式选项卡中的第1个子页面，该页面展示一个支持单webview模式的下拉刷新、上拉加载的消息列表
-				</div>
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 1</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 2</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 3</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 4</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 5</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 6</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 7</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 8</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 9</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 10</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 11</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 12</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 13</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 14</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 15</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 16</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 17</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 18</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 19</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 20</a>
-					</li>
-				</ul>
-			</div>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg">
+			<!--<a class="mui-action-back mui-icon mui-icon-home mui-pull-right mui-a-color"></a>-->
+			<h1 class="mui-title">地区统计</h1>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">丰台地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="fengtai">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">高平地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="gaoping">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">罗汉洞地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="luohandong">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<!--<span class="mui-badge mui-badge-primary">11</span>-->
+
+					<a class="mui-navigate-right" href="#">温泉地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="wenquan">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">晁家地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="chaojia">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">凤凰地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="fenghuang">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">其他地区</a>
+					<div class="mui-collapse-content">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="other">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
 		</div>
+
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/commontUrl/commontUrl.js"></script>
+
 		<script>
 			mui.init({
 				swipeBack: false,
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style:'circle',
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
+
+			});
+			var startTimes = "2012-01-01";
+			var mydate = new Date();
+			var month = mydate.getMonth() + 1;
+			var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
+			var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "+&endDate=" + endDate + "+&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=&deptNameList=&begin=1&end=500&carId=&deviceId=&acrossDistrict="
+			mui.ajax(commentBaseUrl + listUrl + parm, {
+				data: {},
+				dataType: 'jsonp', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					//获得服务器响应
+					var dic = eval("(" + data + ")")
+					var dataArr = dic.jsonObject[0];
+
+					var Html = "";
+					mui.each(dataArr, function(index, item) {
+						var location = item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5
+						if(location.indexOf("丰台乡") > 0) {
+							creatUI("fengtai", item);
+						} else if(location.indexOf("高平") > 0) {
+							creatUI("gaoping", item);
+						} else if(location.indexOf("罗汉洞") > 0) {
+							creatUI("luohandong", item);
+						} else if(location.indexOf("温泉") > 0) {
+							creatUI("wenquan", item);
+						} else if(location.indexOf("晁家") > 0) {
+							creatUI("chaojia", item);
+						} else if(location.indexOf("凤凰") > 0) {
+							creatUI("fenghuang", item);
+						} else {
+							creatUI("other", item);
+						}
+
+					})
+					console.log("==" + dataArr.length);
+
 				}
 			});
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for(var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-					mui.toast('下拉刷新成功');
-				}, 1000);
-			}
-			var count = 0;
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for(var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						table.appendChild(li);
-					}
-				}, 1000);
+
+			function creatUI(type, item) {
+				Html = '<li class="mui-table-view-cell"  workDate ="' + item.workDate + '">\
+					<div class="mui-slider-cell">\
+						<div class="oa-contact-cell mui-table">\
+							<div class="oa-contact-avatar mui-table-cell">\
+								<img src="../images/60x60.gif" />\
+							</div>\
+							<div class="oa-contact-content mui-table-cell">\
+								<div class="mui-clearfix">\
+									<h4 class="oa-contact-name">' + item.workDate + '</h4>\
+									<span class="oa-contact-position mui-h6">' + '作业:' + item.areaVaild + '/' + item.area + '</span>\
+								</div>\
+								<p class="oa-contact-email mui-h6">\
+									' + item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5 + '</p>\
+							</div>\
+						</div>\
+					</div>\
+				</li>';
+				//				document.getElementsByClassName('mui-badge').innerHTML = "123";
+
+				switch(type) {
+					case "fengtai":
+						document.getElementById('fengtai').innerHTML += Html;
+						break;
+					case "gaoping":
+						document.getElementById('gaoping').innerHTML += Html;
+						break;
+					case "luohandong":
+						document.getElementById('luohandong').innerHTML += Html;
+						break;
+					case "wenquan":
+						document.getElementById('wenquan').innerHTML += Html;
+						break;
+					case "chaojia":
+						document.getElementById('chaojia').innerHTML += Html;
+						break;
+					case "fenghuang":
+						document.getElementById('fenghuang').innerHTML += Html;
+						break;
+					default:
+
+						document.getElementById('other').innerHTML += Html;
+
+						break;
+
+				}
+				//				document.getElementById('list').innerHTML += Html;
 			}
 		</script>
 	</body>

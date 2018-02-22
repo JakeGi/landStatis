@@ -55,21 +55,33 @@
 			
 			.topDiv {
 				height: 3rem;
+				
+			}
+			
+			.searchBtn {
+				width: 25%;
+				height: 100%;
 			}
 			
 			.startTimeBtn,
 			.endTimeBtn {
-				width: 49%;
+				width: 35%;
 				height: 100%;
 			}
 		</style>
 	</head>
 
 	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg">
+			<!--<a class="mui-action-back mui-icon mui-icon-home mui-pull-right mui-a-color"></a>-->
+			<h1 class="mui-title">地区统计</h1>
+		</header>
 		<div class="mui-content">
 			<div class="mui-row topDiv">
 				<button type="button" class="mui-btn mui-btn-danger startTimeBtn">开始时间</button>
 				<button type="button" class="mui-btn mui-btn-danger endTimeBtn" data-options='{"type":"date","beginYear":2014,"endYear":2016}'>结束时间</button>
+				<button type="button" class=" mui-btn-danger searchBtn">查询</button>
+
 			</div>
 
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
@@ -82,7 +94,7 @@
 	<script src="../js/mui.dtpicker.js"></script>
 	<script src="../js/commontUrl/commontUrl.js"></script>
 	<script>
-		mui.init({//如果用此方法预加载，传进来的值是空
+		mui.init({ //如果用此方法预加载，传进来的值是空
 			swipeBack: true //启用右滑关闭功能
 		});
 		mui.plusReady(function() {
@@ -93,7 +105,7 @@
 		var mydate = new Date();
 		var month = mydate.getMonth() + 1;
 		var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
-		
+
 		var btns = document.getElementsByClassName("mui-btn");
 		mui.each(btns, function(i, btn) {
 			btn.addEventListener('tap', function() {
@@ -102,9 +114,13 @@
 					_self.picker.show(function(rs) {
 						if(i == 0) {
 							btn.innerText = rs.text;
+							startTimes = rs.text;
+							console.log("startTimes" + rs.text);
 
 						} else {
 							btn.innerText = rs.text;
+							endDate = rs.text;
+							console.log("endDate" + rs.text);
 
 						}
 						_self.picker.dispose();
@@ -113,8 +129,8 @@
 				} else {
 					var options = {
 						"type": "date",
-//						"beginYear": startTimes.,
-//						"endYear": endDate
+						//						"beginYear": startTimes.,
+						//						"endYear": endDate
 					}
 					/*
 					 * 首次显示时实例化组件
@@ -125,6 +141,12 @@
 					_self.picker.show(function(rs) {
 
 						btn.innerText = rs.text;
+						if(i == 0) {
+							startTimes = rs.text;
+						} else {
+							endDate = rs.text;
+
+						}
 
 						_self.picker.dispose();
 						_self.picker = null;
@@ -139,13 +161,15 @@
 			var workDate = this.getAttribute("workDate");
 			//传值给详情页面，通知加载新数据
 			//		  mui.fire(detail,'getDetail',{id:id});
+//			 window.location.href="http://hit.huidatech.cn/hdPrecisionAgri/ui/show/workInfo.html?gis=true&carId=152926&deviceId=42688&workDate=2017-12-07&workType=13&ownerName=%E8%92%8B%E7%A6%8F%E6%98%8E&ownerPhone=13919525978&deptName=%E7%94%98%E8%82%83%E7%9C%81-%E5%B9%B3%E5%87%89%E5%B8%82-%E6%B3%BE%E5%B7%9D%E5%8E%BF-%E8%92%8B%E7%A6%8F%E6%98%8E&plate=&venderName=%E6%B3%B0%E5%B1%B1%E4%B8%801504A&hegelv=87&workTypeQt=0";
+			 
 			//打开新闻详情
 			mui.openWindow({
 				id: 'detail',
 				url: 'detail.html',
-				 extras: {
-                 	 title: workDate
-                 },
+				extras: {
+					workDate: workDate
+				},
 				styles: { // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
 					titleNView: { // 窗口的标题栏控件
 						titleText: workDate, // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
@@ -165,29 +189,29 @@
 				}
 			});
 		})
-
+		plus.nativeUI.showWaiting();
 		var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "+&endDate=" + endDate + "+&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=&deptNameList=&begin=1&end=500&carId=&deviceId=&acrossDistrict="
 		mui.ajax(commentBaseUrl + listUrl + parm, {
 			data: {},
 			dataType: 'jsonp', //服务器返回json格式数据
 			type: 'post', //HTTP请求类型
 			success: function(data) {
+				plus.nativeUI.closeWaiting()
 				//获得服务器响应
 				var dic = eval("(" + data + ")")
 				var dataArr = dic.jsonObject[0];
-				
+
 				var Html = "";
 				mui.each(dataArr, function(index, item) {
-					Html = '<li class="mui-table-view-cell"  workDate ="'+item.workDate+'">\
+					Html = '<li class="mui-table-view-cell"  workDate ="' + item.workDate + '">\
 					<div class="mui-slider-cell">\
 						<div class="oa-contact-cell mui-table">\
-							<div class="oa-contact-avatar mui-table-cell">\
-								<img src="../images/60x60.gif" />\
+							<div class="oa-contact-avatar mui-table-cell"><img src="../images/60x60.gif"/>\
 							</div>\
 							<div class="oa-contact-content mui-table-cell">\
 								<div class="mui-clearfix">\
 									<h4 class="oa-contact-name">' + item.workDate + '</h4>\
-									<span class="oa-contact-position mui-h6">' + '作业:' +item.areaVaild+ '/' + item.area + '</span>\
+									<span class="oa-contact-position mui-h6">' + '作业:' + item.areaVaild + '/' + item.area + '</span>\
 								</div>\
 								<p class="oa-contact-email mui-h6">\
 									' + item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5 + '</p>\
@@ -200,6 +224,53 @@
 				console.log("==" + dataArr.length);
 
 			}
+		});
+		var search = document.getElementsByClassName('searchBtn');
+		mui(".topDiv").on('tap', '.searchBtn', function(event) {
+			plus.nativeUI.showWaiting()
+
+			var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "+&endDate=" + endDate + "+&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=&deptNameList=&begin=1&end=500&carId=&deviceId=&acrossDistrict="
+			mui.ajax(commentBaseUrl + listUrl + parm, {
+				data: {},
+				dataType: 'jsonp', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					plus.nativeUI.closeWaiting()
+
+					//获得服务器响应
+					var dic = eval("(" + data + ")")
+					var dataArr = dic.jsonObject[0];
+					console.log("==" + dataArr.length);
+
+					var Html = "";
+					if(dataArr.length > 0) {
+						mui.each(dataArr, function(index, item) {
+							Html = '<li class="mui-table-view-cell"  workDate ="' + item.workDate + '">\
+					<div class="mui-slider-cell">\
+						<div class="oa-contact-cell mui-table">\
+							<div class="oa-contact-avatar mui-table-cell"><img src="../images/60x60.gif"/>\
+							</div>\
+							<div class="oa-contact-content mui-table-cell">\
+								<div class="mui-clearfix">\
+									<h4 class="oa-contact-name">' + item.workDate + '</h4>\
+									<span class="oa-contact-position mui-h6">' + '作业:' + item.areaVaild + '/' + item.area + '</span>\
+								</div>\
+								<p class="oa-contact-email mui-h6">\
+									' + item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5 + '</p>\
+							</div>\
+						</div>\
+					</div>\
+				</li>';
+							document.getElementById('list').innerHTML += Html;
+						})
+					} else {
+						console.log("进来了")
+						document.getElementById('list').innerHTML = "";
+
+					}
+
+				}
+			});
 		});
 	</script>
 
