@@ -97,14 +97,14 @@
 					var dic = eval("(" + data + ")");
 					 var ss = dic.jsonObject[0];
           			var dd = ss[ss.length - 1];
-          			console.log(JSON.stringify(ss))
+          			console.log(JSON.stringify(ss.length))
 					var userHtml = document.getElementsByClassName('value');
 					userHtml[0].innerHTML = dd.ownerName;
 					userHtml[1].innerHTML = dd.ownerPhone;	
 					userHtml[3].innerHTML = Number(dd.areaCount).toFixed(2) + "亩";	
 					userHtml[2].innerHTML = Number(dd.areaVaildCount).toFixed(2) + "亩";
 					userHtml[4].innerHTML = dd.venderName;
-					
+					console.log(JSON.stringify(dd))
 
 
 				}
