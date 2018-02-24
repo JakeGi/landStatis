@@ -19,6 +19,10 @@
 				text-align: center;
 				background: #FFFFFF;
 			}
+			
+			.mui-content-padded img {
+				width: 32.2%;
+			}
 		</style>
 	</head>
 
@@ -34,106 +38,185 @@
 				<span class="mui-badge" id="addres"></span>
 			</li>
 		</ul>
-		<div id="map">地图加载中...</div>
+		 <p>这是一个图文详情页面</p>
+ <p>
+   <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+ </p>
+ <p>这是第二张图</p>
+ <p>
+   <img src="../images/muwu.jpg" data-preview-src="" data-preview-group="1" />
+ </p>
+ <p>这是第三张图</p>
+ <p>
+   <img src="../images/shuijiao.jpg" data-preview-src="" data-preview-group="1" />
+ </p>
+		<div class="mui-content-padded" id="imageContent">
+   <!--<img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+   <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+   <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+   <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />-->
+
+		</div>
 		<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GVn1oS8OuiRlisQZudQXLa1AvBGqCKFO"></script>-->
 		<!--<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>-->
 
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/commontUrl/commontUrl.js">
-			<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=GalSpNI1lOaDCEokZO89CUCanzYG5H21">
+			<script src="../js/mui.zoom.js">
+		</script>
+		<script src="../js/mui.previewimage.js"></script>
+		<!--//		<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=GalSpNI1lOaDCEokZO89CUCanzYG5H21">-->
 		</script>
 		<script type="text/javascript">
-			var em = null,
-				map = null;
-			// H5 plus事件处理
-			function plusReady() {
-				// 确保DOM解析完成
-				if(!em || !window.plus || map) {
-					return
-				};
-				map = new plus.maps.Map("map");
-				map.centerAndZoom(new plus.maps.Point(116.3977, 39.906016), 12);
-				normalMap();
-				showTraffic();
-				showUserLocation();
-				addMarker();
-				getUserLocation();
-				
-// 设置新的折线顶点
-var points = new Array( new plus.maps.Point(116.0,39.0), new plus.maps.Point(115.0,114.0), new plus.maps.Point(117.0,38.0) );
-var polylineObj = new plus.maps.Polyline( points );
-// 设置折线为红色
-polylineObj.setStrokeColor("ff0000");
+			mui.plusReady(function() {
+				var parm = "deviceId=42688&date=2017-12-02&key=CNzN73mrTBYMfc4j&workMode=0&workType=0"
+			mui.ajax(getMapPhoto + parm, {
+				data: {},
+				dataType: 'jsonp', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					console.log(commentBaseUrl + showUserMesg + parm)
+					//获得服务器响应
+					var dic = eval("(" + data + ")");
+					var dataArr = dic.jsonObject[0];
+					var html = "";
 
-// 设置折线为宽度为10
-polylineObj.setLineWidth( 50 );
-				
-polylineObj.setPath( points );
-//				alert(polylineObj.getLineWidth());
-				
-				// 创建Route线路对象
-var routeObj = new plus.maps.Route( new plus.maps.Point(116.404,39.915), new plus.maps.Point(116.347496,114.970191) );
+					dataArr.forEach(function(e) {
+						if(e.indexOf("http") > 1) {
+							var currtime = e.split("^");
+							var currUrl = e.match(/http(\S*).jpg/)[1];
+//							console.log("http" + currUrl + ".jpg");
+							var url = "http" + currUrl + ".jpg";
+							//					 mui.each(ss,function(){
+//							html += '<img src="' + url + '" data-preview-src="" data-preview-group="1" />';
+							 html +='<img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />';
 
-routeObj.startPoint;
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener("plusready", plusReady, false);
-			}
-			// DOMContentloaded事件处理
-			document.addEventListener("DOMContentLoaded", function() {
-				em = document.getElementById("map");
-				plusReady();
-			}, false);
-			// 设置地图的中心点
-			function setCenter() {
-				var center = new plus.maps.Point(118.123, 35.456);
-				map.setCenter(center);
-			}
-			// 获取用户的当前位置信息
-function getUserLocation(){
-	map.getUserLocation( function ( state, point ){
-		if( 0 == state ){
-//			alert( JSON.stringify(point) );
-		}else{
-//			alert( "Failed!" );
+							//					 });
+						}
+					});
 
+					document.getElementById('imageContent').innerHTML = html;
 
-		}
-	} );
-}
-			// 添加标点
-var marker=null;
-function addMarker(){
-	if(marker){return;}
-	marker=new plus.maps.Marker(new plus.maps.Point(116.347496,39.970191));
-	marker.setIcon("/logo.png");
-	marker.setLabel("HBuilder");
-	var bubble = new plus.maps.Bubble("打造最好的HTML5移动开发工具");
-	marker.setBubble(bubble);
-	map.addOverlay(marker);
-}
-			// 打开用户位置
-function showUserLocation(){
-	map.showUserLocation( true );
-}
-			// 获取是否打开地图交通信息图层
-function isTraffic(){
-	alert( map.isTraffic() );
-}
-			// 打开地图交通信息图层
-function showTraffic(){
-	map.setTraffic( true );
-}
-			// 街道视图
-function normalMap(){
-	map.setMapType( plus.maps.MapType.MAPTYPE_NORMAL );
-}
-// 卫星视图
-function stelliteMap(){
-	map.setMapType( plus.maps.MapType.MAPTYPE_SATELLITE );
-}
+				}
+			});
+			
+				// 获取图片地址列表
+				var images = document.getElementById('imageContent');
+				var urls = [];
+				for(var i = 0; i < images.length; i++) {
+					urls.push(images[i].src);
+															console.log(images.length);
+
+				}
+				// 监听图片的点击
+				mui('#imageContent').on('tap', 'img', function() {
+										console.log(urls);
+
+					// 查询图片在列表中的位置
+					// 由于dom节点列表是伪数组，需要处理一下
+					var index = [].slice.call(images).indexOf(this);
+					plus.nativeUI.previewImage(urls, {
+						current: index,
+						loop: true,
+						indicator: 'number'
+					});
+				});
+			});
+
+			
+			//			var em = null,
+			//				map = null;
+			//			// H5 plus事件处理
+			//			function plusReady() {
+			//				// 确保DOM解析完成
+			//				if(!em || !window.plus || map) {
+			//					return
+			//				};
+			//				map = new plus.maps.Map("map");
+			//				map.centerAndZoom(new plus.maps.Point(116.3977, 39.906016), 12);
+			//				normalMap();
+			//				showTraffic();
+			//				showUserLocation();
+			//				addMarker();
+			//				getUserLocation();
+			//
+			//				// 设置新的折线顶点
+			//				var points = new Array(new plus.maps.Point(116.0, 39.0), new plus.maps.Point(115.0, 114.0), new plus.maps.Point(117.0, 38.0));
+			//				var polylineObj = new plus.maps.Polyline(points);
+			//				// 设置折线为红色
+			//				polylineObj.setStrokeColor("ff0000");
+			//
+			//				// 设置折线为宽度为10
+			//				polylineObj.setLineWidth(50);
+			//
+			//				polylineObj.setPath(points);
+			//				//				alert(polylineObj.getLineWidth());
+			//
+			//				// 创建Route线路对象
+			//				var routeObj = new plus.maps.Route(new plus.maps.Point(116.404, 39.915), new plus.maps.Point(116.347496, 114.970191));
+			//
+			//				routeObj.startPoint;
+			//			}
+			//			if(window.plus) {
+			//				plusReady();
+			//			} else {
+			//				document.addEventListener("plusready", plusReady, false);
+			//			}
+			//			// DOMContentloaded事件处理
+			//			document.addEventListener("DOMContentLoaded", function() {
+			//				em = document.getElementById("map");
+			//				plusReady();
+			//			}, false);
+			//			// 设置地图的中心点
+			//			function setCenter() {
+			//				var center = new plus.maps.Point(118.123, 35.456);
+			//				map.setCenter(center);
+			//			}
+			//			// 获取用户的当前位置信息
+			//			function getUserLocation() {
+			//				map.getUserLocation(function(state, point) {
+			//					if(0 == state) {
+			//						//			alert( JSON.stringify(point) );
+			//					} else {
+			//						//			alert( "Failed!" );
+			//
+			//					}
+			//				});
+			//			}
+			//			// 添加标点
+			//			var marker = null;
+			//
+			//			function addMarker() {
+			//				if(marker) {
+			//					return;
+			//				}
+			//				marker = new plus.maps.Marker(new plus.maps.Point(116.347496, 39.970191));
+			//				marker.setIcon("/logo.png");
+			//				marker.setLabel("HBuilder");
+			//				var bubble = new plus.maps.Bubble("打造最好的HTML5移动开发工具");
+			//				marker.setBubble(bubble);
+			//				map.addOverlay(marker);
+			//			}
+			//			// 打开用户位置
+			//			function showUserLocation() {
+			//				map.showUserLocation(true);
+			//			}
+			//			// 获取是否打开地图交通信息图层
+			//			function isTraffic() {
+			//				alert(map.isTraffic());
+			//			}
+			//			// 打开地图交通信息图层
+			//			function showTraffic() {
+			//				map.setTraffic(true);
+			//			}
+			//			// 街道视图
+			//			function normalMap() {
+			//				map.setMapType(plus.maps.MapType.MAPTYPE_NORMAL);
+			//			}
+			//			// 卫星视图
+			//			function stelliteMap() {
+			//				map.setMapType(plus.maps.MapType.MAPTYPE_SATELLITE);
+			//			}
 		</script>
 
 	</body>
