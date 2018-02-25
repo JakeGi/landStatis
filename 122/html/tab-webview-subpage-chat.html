@@ -155,6 +155,7 @@
 				swipeBack: false,
 
 			});
+			var workDate;
 			var startTimes = "2012-01-01";
 			var mydate = new Date();
 			var month = mydate.getMonth() + 1;
@@ -195,7 +196,7 @@
 			});
 
 			function creatUI(type, item) {
-				Html = '<li class="mui-table-view-cell"  workDate ="' + item.workDate + '">\
+				Html = '<li class="mui-table-view-cell linecell"  workDate ="' + item.workDate + '">\
 					<div class="mui-slider-cell">\
 						<div class="oa-contact-cell mui-table">\
 							<div class="oa-contact-avatar mui-table-cell">\
@@ -204,7 +205,7 @@
 							<div class="oa-contact-content mui-table-cell">\
 								<div class="mui-clearfix">\
 									<h4 class="oa-contact-name">' + item.workDate + '</h4>\
-									<span class="oa-contact-position mui-h6">' + '作业:' + item.areaVaild + '/' + item.area + '</span>\
+									<span class="oa-contact-position mui-h6">' + '面积:' + item.areaVaild + '/' + item.area + '</span>\
 								</div>\
 								<p class="oa-contact-email mui-h6">\
 									' + item.loc1 + item.loc2 + item.loc3 + item.loc4 + item.loc5 + '</p>\
@@ -242,6 +243,40 @@
 				}
 				//				document.getElementById('list').innerHTML += Html;
 			}
+			
+			mui(".mui-table-view").on('tap', '.linecell', function() {
+			//获取id
+			var workDate = this.getAttribute("workDate");
+			//传值给详情页面，通知加载新数据
+			//		  mui.fire(detail,'getDetail',{id:id});
+//			 window.location.href="http://hit.huidatech.cn/hdPrecisionAgri/ui/show/workInfo.html?gis=true&carId=152926&deviceId=42688&workDate=2017-12-07&workType=13&ownerName=%E8%92%8B%E7%A6%8F%E6%98%8E&ownerPhone=13919525978&deptName=%E7%94%98%E8%82%83%E7%9C%81-%E5%B9%B3%E5%87%89%E5%B8%82-%E6%B3%BE%E5%B7%9D%E5%8E%BF-%E8%92%8B%E7%A6%8F%E6%98%8E&plate=&venderName=%E6%B3%B0%E5%B1%B1%E4%B8%801504A&hegelv=87&workTypeQt=0";
+			 
+			//打开新闻详情
+			mui.openWindow({
+				id: 'detail',
+				url: 'detail.html',
+				extras: {
+					workDate: workDate
+				},
+				styles: { // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
+					titleNView: { // 窗口的标题栏控件
+						titleText: workDate, // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+						titleColor: "#000000", // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+						titleSize: "17px", // 字体大小,默认17px
+						backgroundColor: "#F7F7F7", // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+						autoBackButton: "true",
+						progress: { // 标题栏控件的进度条样式
+							color: "#00FF00", // 进度条颜色,默认值为"#00FF00"  
+							height: "0px" // 进度条高度,默认值为"2px"         
+						},
+						splitLine: { // 标题栏控件的底部分割线，类似borderBottom
+							color: "#CCCCCC", // 分割线颜色,默认值为"#CCCCCC"  
+							height: "1px" // 分割线高度,默认值为"2px"
+						}
+					}
+				}
+			});
+		});
 		</script>
 	</body>
 

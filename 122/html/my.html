@@ -62,10 +62,10 @@
 			<li class="mui-table-view-cell">电话
 				<span class="mui-badge  value">0</span>
 			</li>
-			<li class="mui-table-view-cell">累计耕作面积
+			<li class="mui-table-view-cell">作业总面积数
 				<span class="mui-badge value">0</span>
 			</li>
-			<li class="mui-table-view-cell">累计达标面积
+			<li class="mui-table-view-cell">达标面积总数
 				<span class="mui-badge value">0</span>
 			</li>
 			<li class="mui-table-view-cell">车辆信息
@@ -86,7 +86,7 @@
 			var month = mydate.getMonth() + 1;
 			var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
 
-			var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate="+startTimes+"&endDate="+endDate+"&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=13%2C56&deptNameList=&begin=1&end=20&carId=&deviceId=&acrossDistrict="
+			var parm = "handler=queryWorkinfoDetail&regionCode=17020115&beginDate=" + startTimes + "&endDate=" + endDate + "&key=&beginDepth=&endDepth=&beginRate=&endRate=&workType=13%2C56&deptNameList=&begin=1&end=20&carId=&deviceId=&acrossDistrict="
 			mui.ajax(commentBaseUrl + showUserMesg + parm, {
 				data: {},
 				dataType: 'jsonp', //服务器返回json格式数据
@@ -95,17 +95,36 @@
 					console.log(commentBaseUrl + showUserMesg + parm)
 					//获得服务器响应
 					var dic = eval("(" + data + ")");
-					 var ss = dic.jsonObject[0];
-          			var dd = ss[ss.length - 1];
-          			console.log(JSON.stringify(ss.length))
+					var ss = dic.jsonObject[0];
+					var dd = ss[ss.length - 1];
+					console.log(JSON.stringify(ss.length))
 					var userHtml = document.getElementsByClassName('value');
 					userHtml[0].innerHTML = dd.ownerName;
-					userHtml[1].innerHTML = dd.ownerPhone;	
-					userHtml[3].innerHTML = Number(dd.areaCount).toFixed(2) + "亩";	
+					userHtml[1].innerHTML = dd.ownerPhone;
+					userHtml[3].innerHTML = Number(dd.areaCount).toFixed(2) + "亩";
 					userHtml[2].innerHTML = Number(dd.areaVaildCount).toFixed(2) + "亩";
-					userHtml[4].innerHTML = dd.venderName;
+					//					userHtml[4].innerHTML = dd.venderName;
 					console.log(JSON.stringify(dd))
 
+				}
+			});
+
+			var geyDevisListparm = "handler=queryWorkInfoPlot&regionCode=17020115&querykey=&begin=1&end=10&diffClass=&carId=&deviceId="
+
+			mui.ajax(commentBaseUrl + geyDevisList + geyDevisListparm, {
+				data: {},
+				dataType: 'jsonp', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					console.log(commentBaseUrl + geyDevisList + geyDevisListparm)
+					//获得服务器响应
+					var dic = eval("(" + data + ")");
+					var ss = dic.jsonObject[0];
+					var userHtml = document.getElementsByClassName('value');
+
+					userHtml[4].innerHTML = ss[0].venderName;
+
+					console.log(JSON.stringify(ss[0]))
 
 				}
 			});

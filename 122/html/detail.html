@@ -21,7 +21,10 @@
 			}
 			
 			.mui-content-padded img {
-				width: 32.2%;
+				width: 33.2%;
+			}
+			.mui-content-padded>.time{
+				width: 33.2%;
 			}
 		</style>
 	</head>
@@ -29,29 +32,17 @@
 	<body>
 		<ul class="mui-table-view">
 			<li class="mui-table-view-cell">作业时段
-				<span class="mui-badge mui-badge-primary " id="zuoyesd">11</span>
+				<span class="mui-badge " id="zuoyesd">0</span>
 			</li>
 			<li class="mui-table-view-cell">平均深度
-				<span class="mui-badge mui-badge-success" id="shendu">22</span>
+				<span class="mui-badge " id="shendu">0</span>
 			</li>
 			<li class="mui-table-view-cell">耕作农具
-				<span class="mui-badge" id="addres"></span>
+				<span class="mui-badge" id="addres">0</span>
 			</li>
 		</ul>
-		 <p>这是一个图文详情页面</p>
- <p>
-   <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
- </p>
- <p>这是第二张图</p>
- <p>
-   <img src="../images/muwu.jpg" data-preview-src="" data-preview-group="1" />
- </p>
- <p>这是第三张图</p>
- <p>
-   <img src="../images/shuijiao.jpg" data-preview-src="" data-preview-group="1" />
- </p>
 		<div class="mui-content-padded" id="imageContent">
-   <!--<img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+			<!--<img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
    <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
    <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
    <img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />-->
@@ -69,61 +60,79 @@
 		</script>
 		<script type="text/javascript">
 			mui.plusReady(function() {
-				var parm = "deviceId=42688&date=2017-12-02&key=CNzN73mrTBYMfc4j&workMode=0&workType=0"
-			mui.ajax(getMapPhoto + parm, {
-				data: {},
-				dataType: 'jsonp', //服务器返回json格式数据
-				type: 'post', //HTTP请求类型
-				success: function(data) {
-					console.log(commentBaseUrl + showUserMesg + parm)
-					//获得服务器响应
-					var dic = eval("(" + data + ")");
-					var dataArr = dic.jsonObject[0];
-					var html = "";
+				var self = plus.webview.currentWebview();
+				var workDate = self.workDate;
+				var startTimes = "2012-01-01";
+				var mydate = new Date();
+				var month = mydate.getMonth() + 1;
+				var endDate = mydate.getFullYear() + '-' + month + '-' + mydate.getDate();
+				plus.nativeUI.showWaiting();
+				var parm = "deviceId=42688&date=" + workDate + "&key=CNzN73mrTBYMfc4j&workMode=0&workType=0"
+				mui.ajax(getMapPhoto + parm, {
+					data: {},
+					dataType: 'jsonp', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+						plus.nativeUI.closeWaiting()
+						//获得服务器响应
+						var dic = eval("(" + data + ")");
+						var dataArr = dic.jsonObject[0];
+						var html = "";
 
-					dataArr.forEach(function(e) {
-						if(e.indexOf("http") > 1) {
-							var currtime = e.split("^");
-							var currUrl = e.match(/http(\S*).jpg/)[1];
-//							console.log("http" + currUrl + ".jpg");
-							var url = "http" + currUrl + ".jpg";
-							//					 mui.each(ss,function(){
-//							html += '<img src="' + url + '" data-preview-src="" data-preview-group="1" />';
-							 html +='<img src="../images/yuantiao.jpg" data-preview-src="" data-preview-group="1" />';
+						dataArr.forEach(function(e) {
+							if(e.indexOf("http") > 1) {
+								var currtime = e.split("^");
+								var currUrl = e.match(/http(\S*).jpg/)[1];
+								var url = "http" + currUrl + ".jpg";
+								html += '<img src="' + url + '" data-preview-src="" data-preview-group="1" class="contentImg"/>';
+							}
+						});
 
-							//					 });
+						document.getElementById('imageContent').innerHTML = html;
+						// 获取图片地址列表
+						var images = document.getElementsByTagName('img');
+						var urls = [];
+						for(var i = 0; i < images.length; i++) {
+							urls.push(images[i].src);
+
 						}
-					});
+						// 监听图片的点击
+						mui('#imageContent').on('tap', 'img', function() {
+							// 查询图片在列表中的位置
+							// 由于dom节点列表是伪数组，需要处理一下
+							var index = [].slice.call(images).indexOf(this);
+							plus.nativeUI.previewImage(urls, {
+								current: index,
+								loop: true,
+								indicator: 'number'
+							});
+						});
+					}
+				});
 
-					document.getElementById('imageContent').innerHTML = html;
+				var parm = "handler=queryWorkPlot&carId=152926&workDate=" + workDate + "&workType=13&deptNameList="
+				mui.ajax(commentBaseUrl + listDetail + parm, {
+					data: {},
+					dataType: 'jsonp', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+						console.log(commentBaseUrl + listDetail + parm)
 
-				}
-			});
-			
-				// 获取图片地址列表
-				var images = document.getElementById('imageContent');
-				var urls = [];
-				for(var i = 0; i < images.length; i++) {
-					urls.push(images[i].src);
-															console.log(images.length);
+						//获得服务器响应
+						var dic = eval("(" + data + ")");
+						console.log(JSON.stringify(dic))
+						var jsonObject = dic.jsonObject[0];
+						var jsonObjectStr = jsonObject.toString();
+						var dataArr = jsonObjectStr.split("~");
+						console.log("dataArr" + dataArr.length);
+						document.getElementById('zuoyesd').innerHTML = (dataArr[3].split(" "))[1]+"~"+(dataArr[4].split(" "))[1];
+						document.getElementById('shendu').innerHTML = dataArr[11]+"厘米";
+						document.getElementById('addres').innerHTML = dataArr[17]+"("+Number(dataArr[18])/1000+"米)" ;
 
-				}
-				// 监听图片的点击
-				mui('#imageContent').on('tap', 'img', function() {
-										console.log(urls);
-
-					// 查询图片在列表中的位置
-					// 由于dom节点列表是伪数组，需要处理一下
-					var index = [].slice.call(images).indexOf(this);
-					plus.nativeUI.previewImage(urls, {
-						current: index,
-						loop: true,
-						indicator: 'number'
-					});
+					}
 				});
 			});
 
-			
 			//			var em = null,
 			//				map = null;
 			//			// H5 plus事件处理
